@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+  <link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/popup.css">
+  <script type="text/javascript" src="../lib/jquery/js/jquery-3.1.1.min.js"></script>
+  <script type="text/javascript" src="../js/common.js"></script>
+  <script type="text/javascript" src="../js/options.js"></script>
+  <script type="text/javascript" src="../lib/bootstrap/js/bootstrap.min.js"></script>
+  <title>設定 はてなフォトライフアップローダー</title>
+</head>
+<body>
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <h5><img class="icon" src="../img/icon.png" />はてなフォトライフアップローダー</h5>
+      </div>
+    </div>
+  </nav>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2" id="AlertArea">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 col-md-offset-4">
+        <form>
+          <div class="form-group">
+            <label for="HatenaId">はてなid</label><span style="margin-left:5px;font-size:50%;cursor:pointer;" class="glyphicon glyphicon-question-sign" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="自分のはてなidを入力します"></span>
+            <input type="text" id="HatenaId" class="form-control" placeholder="はてなidをここに入力"></input>
+          </div>
+          <div class="form-group">
+            <label for="ApiKey">APIキー</label><span style="margin-left:5px;font-size:50%;cursor:pointer;" class="glyphicon glyphicon-question-sign" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="APIキーは、はてなブログ管理画面の「設定」→「詳細設定」から確認できます。"></span>
+            <input type="text" id="ApiKey" class="form-control" placeholder="APIキーをここに入力"></input>
+          </div>
+          <div class="form-group">
+            <label for="Folder">はてなフォトライフの保存フォルダ</label><span style="margin-left:5px;font-size:50%;cursor:pointer;" class="glyphicon glyphicon-question-sign" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="設定したフォルダにアップロードされます。設定しない場合はトップフォルダに保存されます。"></span>
+            <p class="notice">※設定しない場合はトップフォルダに保存されます</p>
+            <input type="text" id="Folder" class="form-control" placeholder="保存するフォルダ名を入力"></input>
+          </div>
+          <div class="form-group save-button">
+            <button type="button" id="SaveButton"  class="btn btn-primary">設定を保存する</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container-fluid">
+      <p>presented by <a href="http://profile.hatena.ne.jp/WorldWorldWorld/">WorldWorldWorld</a></p>
+      <p>ご意見ご要望は<a href="http://blog.wackwack.net/">ブログから</a>お願いします</p>
+    </div>
+  </footer>
+</body>
