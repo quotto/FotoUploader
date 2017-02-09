@@ -1,0 +1,25 @@
+#upload-modal {
+  z-index: 9997;
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.75);
+}
+
+#upload-modal-content {
+  z-index: 9998;
+  width: 50%;
+  background-color:#fff;
+  border: solid 2px;
+  position: fixed;
+  top: 10%;
+  left: 25%;
+  padding: 10px;
+}
+
+#upload-modal-content p {
+  text-align: center;
+}
