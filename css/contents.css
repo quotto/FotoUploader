@@ -1,4 +1,4 @@
-#upload-modal {
+#fotouploader-modal-background {
   z-index: 9997;
   display: none;
   position: fixed;
@@ -9,7 +9,7 @@
   background-color: rgba(0,0,0,0.75);
 }
 
-#upload-modal-content {
+.fotouploader-modal-content {
   z-index: 9998;
   width: 50%;
   background-color:#fff;
@@ -18,8 +18,43 @@
   top: 10%;
   left: 25%;
   padding: 10px;
+  display: none;
+  border-radius:10px;
 }
 
-#upload-modal-content p {
+.fotouploader-message {
   text-align: center;
+}
+
+#scale-modal {
+  text-align: center;
+  width: 30%;
+  left: 35%
+}
+
+#fotouploader-scale {
+  margin-right: 5px;
+  margin-bottom: 10px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.fotouploader-message-error {
+  color: #FF0040;
+}
+
+#scale-modal .scale-buttons {
+  text-align: center;
+  display: inline-block;
+  width: 25%;
+}
+
+.fotouploader-button {
+  color: #fff;
+  background-color: #337ab7;
+  border-color: #2e6da4;
+  border-radius: 4px;
+  padding: 6px 12px;
+  border: solid 1px; 
 }
