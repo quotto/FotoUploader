@@ -85,6 +85,7 @@ var doUpload = function(src,tab,scale) {
         var message = '';
         switch(jqXHR.status) {
           case 403:
+          case 404:
             message = 'フォトライフのアップロードに失敗しました。はてなidとAPIキーの設定を確認して下さい。';
             break;  
           default:

@@ -73,8 +73,8 @@ $(document).ready(function(){
       }
       $('#fotouploader-src').val(json_message['src']);
       $('#fotouploader-scale').val('');
-      $upload_modal.fadeIn();
       $scale_modal.fadeIn();
+      $('#fotouploader-scale').focus();
     }
   });
 });
