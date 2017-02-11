@@ -59,8 +59,7 @@ var doUpload = function(src,tab,scale) {
         binaryData += String.fromCharCode(bytes[i]);
       }
 
-      // var upload_url = 'https://hatenablog.wackwack.net/hatena_blog/fotolife_upload';
-      var upload_url = 'http://localhost:3000/hatena_blog/fotolife_upload';
+      var upload_url = 'https://hatenablog.wackwack.net/hatena_blog/fotolife_upload';
       var hatena_id = value.FotolifeUploader_HatenaId;
       var api_key = value.FotolifeUploader_ApiKey;
       var folder_name = value.FotolifeUploader_Folder;
@@ -89,7 +88,7 @@ var doUpload = function(src,tab,scale) {
             message = 'フォトライフのアップロードに失敗しました。はてなidとAPIキーの設定を確認して下さい。';
             break;  
           default:
-            message = 'エラーが発生しました。しばらく経ってから実行するか<a href="https://twitter.com/quo1987">開発者にお問い合わせください。</a>';
+            message = 'エラーが発生しました。しばらく経ってから実行するか開発者にお問い合わせください。';
             break;
         }
         changeUploadingModal(tab.id,'error',message);
