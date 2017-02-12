@@ -26,7 +26,7 @@ var getIsoString = function (){
   return year + "-" + month + "-" + date + "T" + hour + ":" + minute + ":" + sec +"." + pad + mil +"Z";
 }
 
-var doUpload = function(src,tab,scale) {
+var doUpload = function(src,request,tab) {
   "use strict";
   chrome.storage.local.get(['FotolifeUploader_HatenaId','FotolifeUploader_ApiKey','FotolifeUploader_Folder'],function(value){
     changeUploadingModal(tab.id,'load','はてなフォトライフへアップロードしています……');
@@ -74,10 +74,19 @@ var doUpload = function(src,tab,scale) {
       var sha_obj2 = new jsSHA('SHA-1','TEXT',{numRounds:1});
       sha_obj2.update(nonce + timestamp + api_key);
       var digest = sha_obj2.getHash('B64');
+
+      var p_options = {type: "normal",percent: 0, uwidth: 0, uheight: 0};
+      if (request != null) {
+        p_options.type = request.type;
+        p_options.percent = request.percent;
+        p_options.uwidth = request.uwidth;
+        p_options.uheight = request.uheight;
+      }
+
       $.ajax({
         url: upload_url,
         method: 'POST',
-        data: {descriptor: descriptor, imagedata: btoa(binaryData), folder: folder_name,id: hatena_id,api_key: api_key, digest: digest, nonce: base64nonce, timestamp: timestamp, scale: scale},
+        data: {descriptor: descriptor, imagedata: btoa(binaryData), folder: folder_name,id: hatena_id,api_key: api_key, digest: digest, nonce: base64nonce, timestamp: timestamp, type: p_options.type, percent: p_options.percent, uwidth: p_options.uwidth, uheight:p_options.uheight},
         dataType: 'json'
       }).done(function(data,statusText,jqXHR) { 
         changeUploadingModal(tab.id,'success','アップロードが完了しました。');
@@ -100,13 +109,13 @@ var doUpload = function(src,tab,scale) {
 }
 
 chrome.runtime.onMessage.addListener(function(request,sender,sendResponse) {
-  doUpload(request.src,sender.tab,request.scale);
+  doUpload(request.src,request,sender.tab);
 });
 
 chrome.contextMenus.create({
   title: "そのままアップロード",
   onclick: function(info,tab) {
-    doUpload(info.srcUrl,tab,100);
+    doUpload(info.srcUrl,null,tab);
   },
   contexts:['image']
 });
