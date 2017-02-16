@@ -40,18 +40,24 @@ $(document).ready(function(){
   var $scale_modal_input_percent = $('<div class="fotouploader-input-group"> <div class="fotouploader-inline fotouploader-input-label"><span>縮尺：</span></div> <div class="fotouploader-inline"><input class="fotouploader-input-text" id="fotouploader-scale-percent" type="text" name="scale-percent" placeholder="縮尺率">%</div>');
   var $scale_modal_radio_direct = $('<div class="fotouploader-scale-type"><input type="radio" name="scale-type" value="direct">サイズを直接指定</div>');
   var $scale_modal_input_direct = $('<div class="fotouploader-input-group"><div class="fotouploader-inline fotouploader-input-label"><span>幅：</span></div><div class="fotouploader-inline"><input class="fotouploader-input-text" id="fotouploader-scale-width" type="text" placeholder="幅">ピクセル</input></div></div> <div class="fotouploader-input-group"> <div class="fotouploader-inline fotouploader-input-label"><span>高さ：</span></div><div class="fotouploader-inline"><input class="fotouploader-input-text" id="fotouploader-scale-height" type="text" placeholder="高さ">ピクセル</input></div></div>');
+  var $scale_modal_format_label = $('<div class="fotouploader-format-label"><span>画像形式を指定</span></div>');
+  var $scale_modal_format = $('<div class="fotouploader-format"><div class="fotouploader-inline fotouploader-format-padding"></div> <select name="fotouploader-format"><option value="default">デフォルト</option> <option value="jpeg">jpg</option> <option value="png">png</option> <option value="gif">gif</option> </select> </div>');
 
   var $scale_upload_button = $('<button class="fotouploader-button" name="submit">アップロード</button>');
   $scale_upload_button.on('click',function(){
     var $scale_modal = $('#scale-modal');
     var scale_type = $('input[name=scale-type]:checked').val();
+    var format_value = $('select[name=fotouploader-format]').val();
     if (scale_type === "percent") {
       var percent = $('#fotouploader-scale-percent').val();
+      if (percent === '') {
+        percent = '100';
+      }
       if (percent.match(/\D+/) || percent < fotouploader_percent_min || percent > fotouploader_percent_max) {
         showInputError('縮尺率は10〜200の範囲の整数で入力してください');
       } else {
         $scale_modal.fadeOut();
-        chrome.runtime.sendMessage({type: scale_type, percent: percent,src: $('#fotouploader-src').val()});
+        chrome.runtime.sendMessage({type: scale_type, percent: percent,src: $('#fotouploader-src').val(),format: format_value});
       }
     } else if (scale_type === "direct") {
       var uwidth = $('#fotouploader-scale-width').val();
@@ -62,7 +68,7 @@ $(document).ready(function(){
         showInputError('幅と高さは10〜4000の範囲の整数で入力してください');
       } else {
         $scale_modal.fadeOut();
-        chrome.runtime.sendMessage({type: scale_type, uwidth: uwidth, uheight: uheight,src: $('#fotouploader-src').val()});
+        chrome.runtime.sendMessage({type: scale_type, uwidth: uwidth, uheight: uheight,src: $('#fotouploader-src').val(),format: format_value});
       }
     } else {
       showInputEttor('「縮尺率を指定」または「サイズを直接指定」のどちらかを選択してください');
@@ -79,6 +85,8 @@ $(document).ready(function(){
   $scale_modal.append($scale_modal_input_percent);
   $scale_modal.append($scale_modal_radio_direct);
   $scale_modal.append($scale_modal_input_direct);
+  $scale_modal.append($scale_modal_format_label);
+  $scale_modal.append($scale_modal_format);
   $scale_modal.append($('<div class="scale-buttons"/>').append($scale_upload_button));
   $scale_modal.append($('<div class="scale-buttons"/>').append($scale_cancel_button));
   $upload_modal.append($scale_modal);
