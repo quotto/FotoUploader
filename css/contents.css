@@ -79,3 +79,18 @@
   border: solid 1px; 
   width: 100px;
 }
+
+.fotouploader-format-label {
+  text-align: left;
+  width: 70%;
+  margin: 0 auto;
+}
+
+.fotouploader-format {
+  margin: 5px 0;
+  text-align: left;  
+}
+
+.fotouploader-format-padding {
+  width: 30%;
+}

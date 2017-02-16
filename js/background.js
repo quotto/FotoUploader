@@ -48,7 +48,8 @@ var doUpload = function(src,request,tab) {
       } else if(descriptor_hex.substr(0,8) === '47494638') {
         descriptor = 'gif';
       } else if(descriptor_hex.substr(0,4) === '424d') {
-        descriptor = 'bmp';
+        //bmpの場合はjpegとしてアップロードする
+        descriptor = 'jpeg';
       } else {
         changeUploadingModal(tab.id,'error','この画像はアップロードできません。');
         return;
@@ -75,18 +76,23 @@ var doUpload = function(src,request,tab) {
       sha_obj2.update(nonce + timestamp + api_key);
       var digest = sha_obj2.getHash('B64');
 
-      var p_options = {type: "normal",percent: 0, uwidth: 0, uheight: 0};
+      var p_options = {type: "normal",percent: 0, uwidth: 0, uheight: 0, format: descriptor};
       if (request != null) {
         p_options.type = request.type;
         p_options.percent = request.percent;
         p_options.uwidth = request.uwidth;
         p_options.uheight = request.uheight;
+        if (request.format === "default") {
+          p_options.format  = descriptor;
+        } else {
+          p_options.format = request.format;
+        }
       }
 
       $.ajax({
         url: upload_url,
         method: 'POST',
-        data: {descriptor: descriptor, imagedata: btoa(binaryData), folder: folder_name,id: hatena_id,api_key: api_key, digest: digest, nonce: base64nonce, timestamp: timestamp, type: p_options.type, percent: p_options.percent, uwidth: p_options.uwidth, uheight:p_options.uheight},
+        data: {imagedata: btoa(binaryData), folder: folder_name,id: hatena_id,api_key: api_key, digest: digest, nonce: base64nonce, timestamp: timestamp, type: p_options.type, percent: p_options.percent, uwidth: p_options.uwidth, uheight:p_options.uheight, format: p_options.format},
         dataType: 'json'
       }).done(function(data,statusText,jqXHR) { 
         changeUploadingModal(tab.id,'success','アップロードが完了しました。');
