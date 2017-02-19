@@ -27,7 +27,7 @@
   text-align: center;
 }
 
-#scale-modal {
+#custom-modal {
   text-align: center;
   width: 30%;
   left: 35%;
@@ -37,15 +37,25 @@
   color: #FF0040;
 }
 
-.fotouploader-scale-type {
+.fotouploader-label {
    width: 70%;
    margin: 0 auto;
    text-align: left;
+   font-weight: bold;
 }
 
 .fotouploader-input-group {
   text-align: left;
   margin: 5px 0;
+}
+
+.fotouploader-inline {
+  display: inline-block;
+}
+
+.fotouploader-input-label {
+ width: 30%; 
+ text-align: right;
 }
 
 .fotouploader-input-text {
@@ -54,18 +64,25 @@
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 4px;
+}
+
+.fotouploader-compress-input {
+  width: 30%;
+  margin-bottom: -10px;
+}
+
+.fotouploader-compress-notice {
+  font-size: 50%;
+  margin-bottom: 10px;
+}
+
+
+.fotouploader-size-input {
   width: 50%;
 }
 
-.fotouploader-inline {
-  display: inline-block;
-}
-.fotouploader-input-label {
- width: 30%; 
- text-align: right;
-}
 
-#scale-modal .scale-buttons {
+#custom-modal .custom-buttons {
   text-align: center;
   display: inline-block;
 }
@@ -80,17 +97,7 @@
   width: 100px;
 }
 
-.fotouploader-format-label {
-  text-align: left;
-  width: 70%;
-  margin: 0 auto;
-}
-
 .fotouploader-format {
   margin: 5px 0;
   text-align: left;  
-}
-
-.fotouploader-format-padding {
-  width: 30%;
 }
