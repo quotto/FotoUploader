@@ -76,10 +76,10 @@ var doUpload = function(src,request,tab) {
       sha_obj2.update(nonce + timestamp + api_key);
       var digest = sha_obj2.getHash('B64');
 
-      var p_options = {type: "normal",compress_percent: 100, uwidth: 0, uheight: 0, format: descriptor};
+      var p_options = {type: "normal",quality: 100, uwidth: 0, uheight: 0, format: descriptor};
       if (request != null) {
         p_options.type = request.type;
-        p_options.compress_percent = request.compress_percent;
+        p_options.quality = request.quality;
         p_options.uwidth = request.uwidth;
         p_options.uheight = request.uheight;
         if (request.format === "default") {
@@ -88,14 +88,14 @@ var doUpload = function(src,request,tab) {
           p_options.format = request.format;
         }
         if (p_options.format === "jpeg") {
-          p_options.compress_percent = request.compress_percent;
+          p_options.quality = request.quality;
         }
       }
 
       $.ajax({
         url: upload_url,
         method: 'POST',
-        data: {imagedata: btoa(binaryData), folder: folder_name,id: hatena_id,api_key: api_key, digest: digest, nonce: base64nonce, timestamp: timestamp, type: p_options.type, compress_percent: p_options.compress_percent, uwidth: p_options.uwidth, uheight:p_options.uheight, format: p_options.format},
+        data: {imagedata: btoa(binaryData), folder: folder_name,id: hatena_id,api_key: api_key, digest: digest, nonce: base64nonce, timestamp: timestamp, type: p_options.type, quality: p_options.quality, uwidth: p_options.uwidth, uheight:p_options.uheight, format: p_options.format},
         dataType: 'json'
       }).done(function(data,statusText,jqXHR) { 
         changeUploadingModal(tab.id,'success','アップロードが完了しました。');
@@ -129,7 +129,7 @@ chrome.contextMenus.create({
   contexts:['image']
 });
 chrome.contextMenus.create({
-  title: "画像サイズを変えてアップロード",
+  title: "カスタムアップロード",
   contexts:['image'],
   onclick: function(info,tab) {
     chrome.tabs.sendMessage(tab.id,'{"type": "set_scale", "src": "' + info.srcUrl + '"}');

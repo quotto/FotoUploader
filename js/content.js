@@ -1,10 +1,11 @@
 var fotouploader_status_flg = true;
-var fotouploader_compress = 0;
-var fotouploader_compress = 100;
+var fotouploader_quality_min = 0;
+var fotouploader_quality_max = 100;
 var fotouploader_size_min = 0;
 var fotouploader_size_max = 4000;
 var fotouploader_size_perwidth = 0;
 var fotouploader_size_perheight = 0;
+
 var showInputError = function(msg) {
   'use strict';
   var $error_message = $('#custom-modal').find('.fotouploader-message-error');
@@ -32,15 +33,23 @@ $(document).ready(function(){
   });
   $('body').append($upload_modal);
 
+  // エラーメッセージ
   var $message_modal = $('<div id="message-modal" class="fotouploader-modal-content"></div>');
   var $upload_message = $('<p class="fotouploader-message"></p>');
   $message_modal.append($upload_message);
   $upload_modal.append($message_modal);
 
   var $custom_modal = $('<div id="custom-modal" class="fotouploader-modal-content"></div>');
-  var $custom_modal_compress_label = $('<div class="fotouploader-label"><span>圧縮率</span></div>');
-  var $custom_modal_compress_input = $('<div class="fotouploader-input-group"><div class="fotouploader-inline fotouploader-input-label"></div><input class="fotouploader-input-text fotouploader-compress-input" id="fotouploader-compress-percent" type="text" name="custom-compress" placeholder="圧縮率" /><span>%</span><div class="fotouploader-compress-notice"><div class="fotouploader-inline fotouploader-input-label"></div><div class="fotouploader-inline"><span>※画像形式がJPEGの場合のみ有効です</span></div></div>');
-  var $custom_modal_size_label = $('<div class="fotouploader-label">画像サイズ</div>');
+
+  // 品質
+  var $custom_modal_quality_input = $('<div class="fotouploader-input-group"><div class="fotouploader-inline fotouploader-input-label"><span>品質：</span></div><div class="fotouploader-inline"><input class="fotouploader-input-text fotouploader-quality-input" id="fotouploader-quality" type="text" name="custom-quality" /></div><div class="fotouploader-quality-notice"><div><div class="fotouploader-inline fotouploader-input-label"></div><div class="fotouploader-inline"><span>※0（低品質）〜100（高品質）</span></div><div class="fotouploader-inline"></div></div><div><div class="fotouploader-inline fotouploader-input-label"></div><div class="fotouploader-inline"><span>※画像形式がJPEGの場合のみ有効です</span></div><div class="fotouploader-inline"></div></div></div>');
+  $custom_modal_quality_input.find('#fotouploader-quality').on('keyup',function(){
+    if($('select[name=fotouploader-format]').val() != 'jpeg') {
+      $('select[name=fotouploader-format]').val('jpeg');
+    }
+  });
+
+  // 画像サイズ
   var $custom_modal_size_width = $('<div class="fotouploader-inline fotouploader-input-label"><span>幅：</span></div><div class="fotouploader-inline"><input class="fotouploader-input-text fotouploader-size-input" id="fotouploader-custom-width" type="text" placeholder="幅">ピクセル</input></div></div>');
   $custom_modal_size_width.find('#fotouploader-custom-width').on('keyup',function(){
     var checked = $('#fotouploader-size-auto:checked').val();
@@ -60,21 +69,23 @@ $(document).ready(function(){
   $custom_modal_size_input.append($custom_modal_size_width);
   $custom_modal_size_input.append($custom_modal_size_height);
   $custom_modal_size_input.append($custom_modal_size_auto);
-  var $custom_modal_format_label = $('<div class="fotouploader-label"><span>画像形式</span></div>');
-  var $custom_modal_format = $('<div class="fotouploader-format"><div class="fotouploader-inline fotouploader-input-label"></div> <select name="fotouploader-format"><option value="default">デフォルト</option> <option value="jpeg">jpg</option> <option value="png">png</option> <option value="gif">gif</option> </select> </div>');
 
+  // フォーマット
+  var $custom_modal_format = $('<div class="fotouploader-input-group"><div class="fotouploader-inline fotouploader-input-label"><span>画像形式：</span></div> <select name="fotouploader-format"><option value="default">デフォルト</option> <option value="jpeg">jpeg</option> <option value="png">png</option> <option value="gif">gif</option> </select> </div>');
+
+  // ボタン
   var $custom_upload_button = $('<button class="fotouploader-button" name="submit">アップロード</button>');
   $custom_upload_button.on('click',function(){
     var $custom_modal = $('#custom-modal');
     var custom_type = $('input[name=custom-type]:checked').val();
     var format_value = $('select[name=fotouploader-format]').val();
 
-    var compress_percent = $('#fotouploader-compress-percent').val();
-    if (compress_percent === '') {
-      compress_percent = '0';
+    var quality = $('#fotouploader-quality').val();
+    if (quality === '') {
+      quality = '0';
     }
-    if (compress_percent.match(/\D+/) || compress_percent < fotouploader_size_min || compress_percent > fotouploader_size_max) {
-      showInputError('圧縮率は0〜100の範囲で入力してください');
+    if (quality.match(/\D+/) || quality < fotouploader_quality_min || quality > fotouploader_quality_max) {
+      showInputError('品質は0〜100の整数で入力してください');
       return;
     } 
 
@@ -86,9 +97,8 @@ $(document).ready(function(){
       showInputError('幅と高さは0〜4000の範囲の整数で入力してください');
       return;
     } 
-
     $custom_modal.fadeOut();
-    chrome.runtime.sendMessage({type: 'custom', compress_percent: compress_percent,type: custom_type, uwidth: uwidth, uheight: uheight,src: $('#fotouploader-src').val(),format: format_value});
+    chrome.runtime.sendMessage({type: 'custom', quality: quality,type: custom_type, uwidth: uwidth, uheight: uheight,src: $('#fotouploader-src').val(),format: format_value});
   });
   var $custom_cancel_button = $('<button class="fotouploader-button" name="cancel">キャンセル</button>');
   $custom_cancel_button.on('click',function() {
@@ -96,18 +106,16 @@ $(document).ready(function(){
     $('#fotouploader-modal-background').fadeOut();
   });
 
+  // モーダルダイアログに要素を配置
   $custom_modal.append($('<hidden id="fotouploader-src"></hidden>'));
-  $custom_modal.append($custom_modal_compress_label);
-  $custom_modal.append($custom_modal_compress_input);
-  $custom_modal.append($custom_modal_size_label);
+  $custom_modal.append($custom_modal_quality_input);
   $custom_modal.append($custom_modal_size_input);
-  $custom_modal.append($custom_modal_format_label);
   $custom_modal.append($custom_modal_format);
   $custom_modal.append($('<div class="custom-buttons"/>').append($custom_upload_button));
   $custom_modal.append($('<div class="custom-buttons"/>').append($custom_cancel_button));
   $upload_modal.append($custom_modal);
 
-
+  // backgroundへメッセージを送信
   chrome.runtime.onMessage.addListener(function(message) {
     $(this).blur();
     $('#fotouploader-modal-background').fadeIn();
@@ -129,16 +137,21 @@ $(document).ready(function(){
         $error_message.remove();
       }
       $('#fotouploader-src').val(json_message['src']);
-      $('#fotouploader-compress-percent').val('100');
+      $('#fotouploader-quality').val('100');
       var src_image = new Image();
       src_image.src = json_message['src'];
 
-      fotouploader_size_perwidth = src_image.width / src_image.height;
-      fotouploader_size_perheight = src_image.height / src_image.width;
+      if(src_image.width == 0 || src_image.height ==0) {
+        fotouploader_size_perwidth = 0;
+        fotouploader_size_perheight = 0;
+      } else {
+        fotouploader_size_perwidth = src_image.width / src_image.height;
+        fotouploader_size_perheight = src_image.height / src_image.width;
+      }
       $('#fotouploader-custom-width').val(src_image.width);
       $('#fotouploader-custom-height').val(src_image.height);
       $custom_modal.fadeIn();
-      $('#fotouploader-custom').focus();
+      $('#fotouploader-quality').focus();
     }
   });
 });

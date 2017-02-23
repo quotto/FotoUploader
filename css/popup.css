@@ -12,3 +12,17 @@ body {
   cursor:pointer;
 }
 
+.fotouploader-inline {
+  display: inline-block;
+  vertical-align: bottom;
+}
+
+.version {
+  font-size: 80%;
+  text-align: right
+}
+
+.help {
+  text-align: center;
+  font-size: 50%;
+}

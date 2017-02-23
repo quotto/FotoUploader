@@ -1,5 +1,56 @@
+.contents-title {
+  font-weight: bold;
+  margin-bottom: 10px; 
+  text-align: center;
+}
+
+.history {
+  margin: 5px auto;
+}
+
+.description {
+  text-align: left;
+}
+
+.manual-division {
+ text-align:center;
+ }
+
+ .caption {
+   width: 80%;
+   margin: 0 auto;
+   text-align: left;
+ }
+
+.strong {
+  font-weight: bold;
+}
+
+.option-contents {
+  margin-bottom: 40px;
+}
+
+.manual-contents {
+  margin-bottom: 40px;
+}
+
+.upload-type {
+  margin: 20px;
+}
+
+.bs-callout {
+  padding: 20px;
+  margin: 20px 0;
+  border: 1px solid #eee;
+  border-left-width: 5px;
+  border-radius: 3px;
+}
+
+.bs-callout-info {
+  border-left-color: #1b809e;
+}
+
 .footer {
-  position: absolute;
 }
 
 .footer a {

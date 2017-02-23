@@ -46,7 +46,7 @@
 
 .fotouploader-input-group {
   text-align: left;
-  margin: 5px 0;
+  margin: 20px 0;
 }
 
 .fotouploader-inline {
@@ -66,14 +66,12 @@
   border-radius: 4px;
 }
 
-.fotouploader-compress-input {
+.fotouploader-quality-input {
   width: 30%;
-  margin-bottom: -10px;
 }
 
-.fotouploader-compress-notice {
+.fotouploader-quality-notice {
   font-size: 50%;
-  margin-bottom: 10px;
 }
 
 
@@ -95,9 +93,4 @@
   padding: 6px 12px;
   border: solid 1px; 
   width: 100px;
-}
-
-.fotouploader-format {
-  margin: 5px 0;
-  text-align: left;  
 }
